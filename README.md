@@ -1,0 +1,2 @@
+# SnakeAI
+Self learning snake
