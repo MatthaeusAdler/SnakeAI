@@ -2,6 +2,7 @@ import pygame
 import settings
 import color
 import drawer
+import random
 
 def runGame():
     snake = [(4,4), (4,5), (4,6)]
@@ -59,6 +60,21 @@ def changeDirection(key, cur_direction):
 def checkCollision(snake):
     return False
 
+def createApple(snake, apples):
+    possible_apples = []
+
+    for x in range(0, settings.tiles_x):
+        for y in range(0, settings.tiles_y):
+            possible_apples.append((x,y))
+
+    for part in snake:
+        possible_apples.remove(part)
+    
+    apple = random.randint(0, len(possible_apples) - 1)
+    
+    apples.insert(0, possible_apples[apple])
+    apples.pop()
+
 def moveSnake(snake, apples, direction):
     head = snake[0]
 
@@ -69,9 +85,9 @@ def moveSnake(snake, apples, direction):
 
     if new_head == apples[0]:
         snake.insert(0, new_head)
-        #create new apple
+        createApple(snake, apples)
     else:
         snake.insert(0, new_head)
         snake.pop()
-        
+
 runGame()
