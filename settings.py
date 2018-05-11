@@ -1,7 +1,7 @@
 import pygame
 import color
 
-fps = 60
+fps = 5
 game_title = "Snake AI"
 
 tile_size = 64

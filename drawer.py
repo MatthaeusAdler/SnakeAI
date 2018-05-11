@@ -27,8 +27,8 @@ def snake_part(part):
 def draw_background(gameDisplay):
     gameDisplay.fill(background_color)
 
-def draw_apple(gameDisplay, pos):
-    gameDisplay.blit(spriteSnake, (pos[0] * tile_size, pos[1] * tile_size), snake_part(apple))
+def draw_apple(gameDisplay, apples):
+    gameDisplay.blit(spriteSnake, (apples[0][0] * tile_size, apples[0][1] * tile_size), snake_part(apple))
 
 def draw_snake(gameDisplay, snake):
     i = 0
@@ -64,30 +64,30 @@ def draw_snake(gameDisplay, snake):
             if v1Y < 0:
                 if v2Y != 0:
                     part = body_vertical
+                elif v2X < 0:
+                    part = body_top_right
                 elif v2X > 0:
                     part = body_top_left
-                elif v2X > 0:
-                    part = body_top_right
             elif v1Y > 0:
                 if v2Y != 0:
                     part = body_vertical
+                elif v2X < 0:
+                    part = body_bottom_right
                 elif v2X > 0:
                     part = body_bottom_left
-                elif v2X > 0:
-                    part = body_bottom_right
             elif v1X < 0:
                 if v2X != 0:
                     part = body_horizontal
                 elif v2Y > 0:
-                    part = body_bottom_left
-                elif v2Y < 0:
                     part = body_top_left
+                elif v2Y < 0:
+                    part = body_bottom_left
             elif v1X > 0:
                 if v2X != 0:
                     part = body_horizontal
-                elif v2Y > 0:
-                    part = body_bottom_right
                 elif v2Y < 0:
+                    part = body_bottom_right
+                elif v2Y > 0:
                     part = body_top_right
         
         gameDisplay.blit(spriteSnake, (snake[i][0] * tile_size , snake[i][1] * tile_size), snake_part(part))
