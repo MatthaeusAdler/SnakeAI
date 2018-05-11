@@ -34,11 +34,11 @@ def runGame():
                     break
         
         if started:
+            moveSnake(snake, apples, direction)
+            
             if checkCollision(snake):
                 print("GAME OVER")
                 exited = True
-            else:
-                moveSnake(snake, apples, direction)    
         
         drawer.draw_background(gameDisplay)
         drawer.draw_snake(gameDisplay, snake)
@@ -58,7 +58,14 @@ def changeDirection(key, cur_direction):
     else: return cur_direction
 
 def checkCollision(snake):
-    return False
+    head = snake[0]
+
+    if head[0] < 0 or head[0] > settings.tiles_x or head[1] < 0 or head[1] > settings.tiles_y:
+        return True
+
+    for i in range(1, len(snake) - 1):
+        if head == snake[i]:
+            return True
 
 def createApple(snake, apples):
     possible_apples = []
