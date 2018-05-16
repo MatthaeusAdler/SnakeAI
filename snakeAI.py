@@ -60,7 +60,7 @@ def changeDirection(key, cur_direction):
 def checkCollision(snake):
     head = snake[0]
 
-    if head[0] < 0 or head[0] > settings.tiles_x or head[1] < 0 or head[1] > settings.tiles_y:
+    if head[0] < 0 or head[0] > settings.tiles_x - 1 or head[1] < 0 or head[1] > settings.tiles_y - 1:
         return True
 
     for i in range(1, len(snake) - 1):
