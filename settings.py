@@ -13,7 +13,9 @@ playground_size = (tile_size * tiles_x, tile_size * tiles_y)
 
 font_color = color.blue
 font_family = "Bauhaus 93"
-font_size = 45
+font_size_big = 45
+font_size_medium = int(font_size_big / 2)
+font_size_small = int(font_size_big / 4)
 
 
 spriteCollection = pygame.image.load('snake-graphics.png')

@@ -28,8 +28,8 @@ def getSpriteCoordinate(part):
 def draw_background(screen):
      screen.fill(settings.background_color)
 
-def write_centered_text(screen, text):
-    font = pygame.font.SysFont(settings.font_family, settings.font_size)
+def write_centered_text(screen, text, size):
+    font = pygame.font.SysFont(settings.font_family, size)
     label = font.render(text,  1, settings.font_color)
 
     screen_width, screen_height = screen.get_size()
@@ -39,8 +39,8 @@ def write_centered_text(screen, text):
 
     screen.blit(label, (x, y))
 
-def write_top_right_text(screen, text):
-    font = pygame.font.SysFont(settings.font_family, settings.font_size)
+def write_top_right_text(screen, text, size):
+    font = pygame.font.SysFont(settings.font_family, size)
     label = font.render(text,  1, settings.font_color)
 
     screen_width, screen_height = screen.get_size()

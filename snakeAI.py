@@ -21,12 +21,12 @@ def main():
         drawer.draw_background(screen)
 
         if gameover:
-            drawer.write_centered_text(screen, "Press 'Return' to start the Game")
+            drawer.write_centered_text(screen, "Press 'Return' to start the Game", settings.font_size_big)
         else:
             drawer.draw_background(screen)
             drawer.draw_snake(screen, snake)
             drawer.draw_apple(screen, apples)
-            drawer.write_top_right_text(screen, "Apples: " + str(points))
+            drawer.write_top_right_text(screen, "Apples: " + str(points), settings.font_size_medium)
 
         pygame.display.update()
 
