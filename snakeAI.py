@@ -1,51 +1,59 @@
 import pygame
 import settings
-import color
 import drawer
 import random
 
-def runGame():
-    snake = [(4,4), (4,5), (4,6)]
-    apples = [(2, 2)]
-    direction = "UP"
-    
+def main():
     pygame.init()
     pygame.display.set_caption(settings.game_title)
-
-    gameDisplay = pygame.display.set_mode((settings.display_width, settings.display_height))
+    
+    screen = pygame.display.set_mode(settings.playground_size)    
 
     clock = pygame.time.Clock()
 
-    started = False
-    exited = False
+    running = True
+    gameover = True
 
-    while not exited:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                exited = True
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    exited = True
-                    break
-                elif not started:
-                    started = True
-                elif event.key == pygame.K_LEFT or pygame.K_RIGHT or pygame.K_UP or pygame.K_DOWN:
-                    direction = changeDirection(event.key, direction)
-                    break
-        
-        if started:
-            moveSnake(snake, apples, direction)
-            
-            if checkCollision(snake):
-                print("GAME OVER")
-                exited = True
-        
-        drawer.draw_background(gameDisplay)
-        drawer.draw_snake(gameDisplay, snake)
-        drawer.draw_apple(gameDisplay, apples)
+    points = 0
+    last_direction = None
+    
+    while running:
+        drawer.draw_background(screen)
+
+        if gameover:
+            drawer.write_centered_text(screen, "Press 'Return' to start the Game")
+        else:
+            drawer.draw_background(screen)
+            drawer.draw_snake(screen, snake)
+            drawer.draw_apple(screen, apples)
+            drawer.write_top_right_text(screen, "Apples: " + str(points))
 
         pygame.display.update()
+
         clock.tick(settings.fps)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = True
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    running = False
+                    break
+                elif event.key in (pygame.K_LEFT, pygame.K_RIGHT, pygame.K_UP, pygame.K_DOWN) :
+                    last_direction = changeDirection(event.key, last_direction)
+                elif event.key == pygame.K_RETURN and gameover:
+                    snake = [(4,4), (4,5), (4,6)]
+                    apples = [(2, 2)]
+                    last_direction = "UP"
+                    points = 0
+                    gameover = False
+
+        if running and not gameover:
+            if moveSnake(snake, apples, last_direction):
+                points = points + 1
+            
+            if checkCollision(snake):
+                gameover = True
 
     pygame.quit()
     quit()
@@ -55,7 +63,7 @@ def changeDirection(key, cur_direction):
     elif key == pygame.K_DOWN and cur_direction != "UP": return "DOWN"
     elif key == pygame.K_LEFT and cur_direction != "RIGHT": return "LEFT"
     elif key == pygame.K_RIGHT and cur_direction != "LEFT": return "RIGHT"
-    else: return cur_direction
+    else: return cur_direction        
 
 def checkCollision(snake):
     head = snake[0]
@@ -93,8 +101,12 @@ def moveSnake(snake, apples, direction):
     if new_head == apples[0]:
         snake.insert(0, new_head)
         createApple(snake, apples)
+        return True
     else:
         snake.insert(0, new_head)
         snake.pop()
+        return False
 
-runGame()
+if __name__ == "__main__":
+    main()
+

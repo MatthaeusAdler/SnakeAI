@@ -1,16 +1,19 @@
 import pygame
 import color
 
-fps = 5
 game_title = "Snake AI"
 
-tile_size = 64
-tiles_x = 10
-tiles_y = 10
-
-display_width = tiles_x * tile_size
-display_height = tiles_y * tile_size
-
+fps = 10
+disableUI = True #unused
 background_color = color.brown
 
-spriteSnake = pygame.image.load('snake-graphics.png')
+tile_size = 64
+tiles_x, tiles_y = 10, 10
+playground_size = (tile_size * tiles_x, tile_size * tiles_y)
+
+font_color = color.blue
+font_family = "Bauhaus 93"
+font_size = 45
+
+
+spriteCollection = pygame.image.load('snake-graphics.png')

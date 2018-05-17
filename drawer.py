@@ -1,4 +1,5 @@
-from settings import tile_size, spriteSnake, background_color
+import pygame
+import settings
 
 head_top = (3, 0)
 head_right = (4, 0)
@@ -21,16 +22,37 @@ body_bottom_left = (2, 0)
 
 apple = (0, 3)
 
-def snake_part(part):
-    return (part[0] * tile_size, part[1] * tile_size, tile_size, tile_size)
+def getSpriteCoordinate(part):
+    return (part[0] * settings.tile_size, part[1] * settings.tile_size, settings.tile_size, settings.tile_size)
 
-def draw_background(gameDisplay):
-    gameDisplay.fill(background_color)
+def draw_background(screen):
+     screen.fill(settings.background_color)
 
-def draw_apple(gameDisplay, apples):
-    gameDisplay.blit(spriteSnake, (apples[0][0] * tile_size, apples[0][1] * tile_size), snake_part(apple))
+def write_centered_text(screen, text):
+    font = pygame.font.SysFont(settings.font_family, settings.font_size)
+    label = font.render(text,  1, settings.font_color)
 
-def draw_snake(gameDisplay, snake):
+    screen_width, screen_height = screen.get_size()
+
+    x = screen_width / 2 - label.get_rect().width / 2
+    y = screen_height / 2 - label.get_rect().height / 2
+
+    screen.blit(label, (x, y))
+
+def write_top_right_text(screen, text):
+    font = pygame.font.SysFont(settings.font_family, settings.font_size)
+    label = font.render(text,  1, settings.font_color)
+
+    screen_width, screen_height = screen.get_size()
+
+    x = screen_width - label.get_rect().width
+    
+    screen.blit(label, (x, 0))
+
+def draw_apple(screen, apples):
+    screen.blit(settings.spriteCollection, (apples[0][0] * settings.tile_size, apples[0][1] * settings.tile_size), getSpriteCoordinate(apple))
+
+def draw_snake(screen, snake):
     i = 0
 
     while i < len(snake):
@@ -90,8 +112,5 @@ def draw_snake(gameDisplay, snake):
                 elif v2Y > 0:
                     part = body_top_right
         
-        gameDisplay.blit(spriteSnake, (snake[i][0] * tile_size , snake[i][1] * tile_size), snake_part(part))
+        screen.blit(settings.spriteCollection, (snake[i][0] * settings.tile_size , snake[i][1] * settings.tile_size), getSpriteCoordinate(part))
         i = i + 1
-
-    
-        
