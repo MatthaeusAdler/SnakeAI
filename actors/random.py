@@ -6,7 +6,7 @@ class ActorRandom(Actor):
 	def is_human(self):
 		return False
 
-	def get_action(self):
+	def get_action(self, snake, apple, points):
 		actions = Actions.get_possible_actions()
 
 		return actions[randint(0, len(actions) -1)]

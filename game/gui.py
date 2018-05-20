@@ -40,7 +40,7 @@ class GameGUI(Game):
 						running = False
 						break
 					elif self.actor.is_human:
-						if event.key in (pygame.K_LEFT, pygame.K_RIGHT, pygame.K_UP, pygame.K_DOWN) :
+						if event.key in (pygame.K_LEFT, pygame.K_RIGHT, pygame.K_UP, pygame.K_DOWN, pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d) :
 							action = self.key_to_action(event.key)
 						elif event.key == pygame.K_RETURN and self.gameover:
 							self.reset()
@@ -52,7 +52,7 @@ class GameGUI(Game):
 					else:
 						running = False
 				else:
-					action = self.actor.get_action()
+					action = self.actor.get_action(self.snake, self.apple, self.points)
 
 			if running and not self.gameover:
 				self.moveSnake(action)
@@ -61,24 +61,24 @@ class GameGUI(Game):
 
 	def key_to_action(self, key):
 		if self.direction == Directions.UP:
-			if key == pygame.K_LEFT:
+			if key == pygame.K_LEFT or key == pygame.K_a:
 				return Actions.TURN_LEFT
-			elif key == pygame.K_RIGHT:
+			elif key == pygame.K_RIGHT or key == pygame.K_d:
 				return Actions.TURN_RIGHT
 		elif self.direction == Directions.RIGHT:
-			if key == pygame.K_UP:
+			if key == pygame.K_UP or key == pygame.K_w:
 				return Actions.TURN_LEFT
-			elif key == pygame.K_DOWN:
+			elif key == pygame.K_DOWN or key == pygame.K_s:
 				return Actions.TURN_RIGHT
 		elif self.direction == Directions.DOWN:
-			if key == pygame.K_RIGHT:
+			if key == pygame.K_RIGHT or key == pygame.K_d:
 				return Actions.TURN_LEFT
-			elif key == pygame.K_LEFT:
+			elif key == pygame.K_LEFT or key == pygame.K_a:
 				return Actions.TURN_RIGHT
 		elif self.direction == Directions.LEFT:
-			if key == pygame.K_DOWN:
+			if key == pygame.K_DOWN or key == pygame.K_s:
 				return Actions.TURN_LEFT
-			elif key == pygame.K_UP:
+			elif key == pygame.K_UP or key == pygame.K_w:
 				return Actions.TURN_RIGHT
 
 		return Actions.STAY

@@ -59,7 +59,7 @@ class Game:
 		if head[0] < 0 or head[0] > GAME_SIZE - 1 or head[1] < 0 or head[1] > GAME_SIZE - 1:
 			self.gameover = True
 
-		for i in range(1, len(self.snake) - 1):
+		for i in range(1, len(self.snake)):
 			if head == self.snake[i]:
 				self.gameover = True
 

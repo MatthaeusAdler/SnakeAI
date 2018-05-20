@@ -6,7 +6,7 @@ class Actor:
 	def is_human(self):
 		pass
 
-	def get_action(self):
+	def get_action(self, snake, apple, points):
 		pass
 	
 	def want_restart(self):
