@@ -7,6 +7,8 @@ from .actions import Actions
 class Game:
 	def __init__(self, actor):
 		self.actor = actor
+		self.record=0
+		self.sum=0
 		self.reset()
 
 	def reset(self):

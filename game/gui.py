@@ -1,4 +1,6 @@
 import pygame
+from random import randint
+import numpy as np
 
 from game import Game
 from settings import *
@@ -6,24 +8,21 @@ from .drawing import draw_background, draw_snake, draw_apple, write_text
 from .directions import Directions
 from .actions import Actions
 
-
 class GameGUI(Game):
 	def run(self):
 		pygame.init()
-		
 		screen = pygame.display.set_mode(PLAYGROUND)
 		clock = pygame.time.Clock()
 		running = True
-		
+		self.actor.initialize_game(self)
 		while running:
-			action = Actions.STAY
 
-			draw_background(screen)
-			
+			action = Actions.STAY
+			draw_background(screen)			
 			if self.gameover:
 				write_text(screen, "Press 'Return' to restart the Game")
 			else:
-				pygame.display.set_caption(GAME_TITLE + " - Points: " + str(self.points))
+				pygame.display.set_caption(GAME_TITLE + " - Points: " + str(self.points) + " - Record: " + str(self.record))
 				draw_background(screen)
 				draw_snake(screen, self.snake)
 				draw_apple(screen, self.apple)
@@ -46,18 +45,30 @@ class GameGUI(Game):
 							self.reset()
 			
 			if not self.actor.is_human():
+				action = self.actor.get_action(self)
 				if self.gameover:
+					if self.points>self.record:
+						self.record=self.points
+					print("Score: "+str(self.points))
+					self.sum+=self.points
 					if self.actor.want_restart():
-						self.reset()
+						self.reset()						
+						if self.actor.is_ai():
+							self.actor.replay_new(self.actor.memory)
+							self.actor.initialize_game(self)
 					else:
+						print("Record: "+str(self.record))
+						print("Average: "+str(self.sum/self.actor.max_retries))
 						running = False
-				else:
-					action = self.actor.get_action(self.snake, self.apple, self.points)
 
 			if running and not self.gameover:
 				self.moveSnake(action)
 
 		pygame.quit()
+
+
+
+				
 
 	def key_to_action(self, key):
 		if self.direction == Directions.UP:
@@ -82,3 +93,4 @@ class GameGUI(Game):
 				return Actions.TURN_RIGHT
 
 		return Actions.STAY
+
